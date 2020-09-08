@@ -1,1 +1,1 @@
-# githunter-score-api
+# Score API
