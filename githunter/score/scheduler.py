@@ -6,7 +6,9 @@ import schedule
 import time
 import threading
 from githunter.score.models.Schedule import Schedule
+from githunter.score.models.Score import Score
 from githunter.score.services.agrows_service import get_data
+from githunter.score.utils.score_util import get_score
 
 logger = logging.getLogger(__name__)
 
@@ -16,18 +18,26 @@ running: [str] = []
 def run(item: Schedule):
     logging.info(f'Schedule item [{item.code}] started.')
 
-    # TODO: Get this from last score from code
-    start_date = '2002-10-02T10:00:00-05:00'
-    end_date = datetime.datetime.now(pytz.timezone('Brazil/East')).isoformat()
+    tz = pytz.timezone('Brazil/East')
+    last_score = Score.objects(scheduler_code=item.code).order_by('-updatedAt').limit(1)
+    last_score_date = last_score[0]['updatedAt'].replace(tzinfo=tz).isoformat() if len(last_score) > 0 else None
+
+    start_date = last_score_date if last_score_date is not None else '2002-10-02T10:00:00-05:00'
+    end_date = datetime.datetime.now(tz).isoformat()
 
     data = get_data(item.owner, item.thing, item.node, start_date, end_date)
 
     for user in data:
         attr = user["attributes"]
-        score = (2 * int(attr["starsReceived"])) + int(attr["commits"]) + (2 * int(attr["pullRequests"])) + int(
-            attr["issuesOpened"]) + (2 * int(attr["contributedRepositories"]))
+        stars = int(attr["starsReceived"])
+        commits = int(attr["commits"])
+        pull_requests = int(attr["pullRequests"])
+        issues = int(attr["issuesOpened"])
+        repos = int(attr["contributedRepositories"])
+        user_name = attr["name"]
+        score = get_score(stars, repos, pull_requests, commits, issues)
 
-        print("Name: " + attr["name"] + " Score: " + str(score))
+        Score(score, user_name, item.owner, item.thing, item.node, item.code).save()
 
     logging.info(f'Schedule item [{item.code}] finished.')
 

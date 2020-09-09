@@ -2,6 +2,7 @@ from flask import Flask
 from flask_restplus import Api
 from githunter.score.routes.health_routes import health_api
 from githunter.score.routes.schedule_routes import schedule_api
+from githunter.score.routes.score_routes import score_api
 
 
 def create_flask_app():
@@ -16,5 +17,6 @@ def create_flask_app():
 
     api.add_namespace(schedule_api)
     api.add_namespace(health_api)
+    api.add_namespace(score_api)
 
     return app

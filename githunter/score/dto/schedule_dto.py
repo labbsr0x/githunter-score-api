@@ -25,7 +25,7 @@ class ScheduleDto:
             'interval_value': {
                 'type': 'integer',
                 'description': 'schedule interval value'
-            },
+            }
         },
         'type': 'object'
     })
