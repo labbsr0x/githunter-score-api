@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from os.path import join, dirname
 
-if os.getenv("SCORE_ENVIRONMENT") is not None:
+if not os.getenv("SCORE_ENVIRONMENT"):
     load_dotenv(dotenv_path=join(dirname(__file__), '../../.local.env'))
 
 CONFIG = {

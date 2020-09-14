@@ -57,16 +57,20 @@ First, make sure your python version is v3 or higher if not, upgrade to a newer 
 python3 -m githunter.app
 ```
 
+## Docker
+The project can be carried out using the docker. If you already have Docker and Docker Compose installed, run:
+
+```bash
+docker-compose up --build
+```
+
+
 ## Api Docs
 API documentation is generated automatically and made available via Swagger. If the application is running in the local environment, you can check the documentation at:
 
 ```bash
 http://localhost:3000
 ```
-
-//TODO:
-* dockerizar
-* explicar como usar via docker
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
