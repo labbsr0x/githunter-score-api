@@ -21,5 +21,14 @@ python3 -m githunter.app
 http://localhost:3000
 ```
 
+//TODO:
+* pegar config das variáveis de ambiente
+* dockerizar
+* explicar o funcionamento do scheduler
+* explicar o local das configuracoes locais
+* explicar as variáveis de ambiente
+* na verdade, o score tem que ter um atributo: schedule, contendo todas as informacoes
+* explicar como usar via docker
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

@@ -14,6 +14,11 @@ class Score(gj.Document):
     node = StringField()
     scheduler_code = StringField()
     ruler = IntField()
+    stars_received = IntField()
+    commits = IntField()
+    pull_requests = IntField()
+    issues_opened = IntField()
+    contributed_repositories = IntField()
 
     updatedAt = DateTimeField(default=datetime.datetime.now)
 
@@ -25,6 +30,11 @@ class Score(gj.Document):
             thing: str,
             node: str,
             scheduler_code: str,
+            stars_received: int,
+            commits: int,
+            pull_requests: int,
+            issues_opened: int,
+            contributed_repositories: int,
             *args,
             **values
     ):
@@ -37,3 +47,8 @@ class Score(gj.Document):
         self.thing = thing
         self.node = node
         self.scheduler_code = scheduler_code
+        self.stars_received = stars_received
+        self.commits = commits
+        self.pull_requests = pull_requests
+        self.issues_opened = issues_opened
+        self.contributed_repositories = contributed_repositories
