@@ -1,0 +1,41 @@
+version: '3.5'
+
+services:
+  api:
+    build: .
+    image: labbsr0x/score-api:latest
+    environment:
+      - SCORE_ENVIRONMENT=DEV
+      - DB_MONGO_URI=mongodb://root:root@mongo:27017/githunter?authSource=admin
+      - AGROWS_AUTH_URI=http://agrows-keycloak.labbs.com.br/auth/realms/agroWS/protocol/openid-connect/token
+      - AGROWS_AUTH_SECRET=fdea3472-7a2a-46cd-8aa7-74b73da41bc1
+      - AGROWS_AUTH_ID=d3aa085b-fba8-4773-9d56-8e6507b1296e
+      - AGROWS_DATA_API_URI=https://agrows-data-api.labbs.com.br/v1
+      - APP_LOG_LEVEL=INFO
+      - APP_PORT=3000
+    ports:
+      - 3000:3000
+    restart: always
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8082:8081
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: root
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+    restart: always
+    links:
+      - mongo
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    restart: always
