@@ -3,13 +3,13 @@ import logging
 
 import requests
 
-from githunter.score.env.environment import env_get_str
+from githunter.score.config import CONFIG
 
 logger = logging.getLogger(__name__)
-auth_uri = env_get_str(['agrows', 'auth_uri'])
-data_uri = env_get_str(['agrows', 'data_uri'])
-auth_client_id = env_get_str(['agrows', 'auth_client_id'])
-auth_client_secret = env_get_str(['agrows', 'auth_client_secret'])
+auth_uri = CONFIG["AGROWS"]["AUTH_URI"]
+data_uri = CONFIG["AGROWS"]["DATA_API_URI"]
+auth_client_id = CONFIG["AGROWS"]["AUTH_ID"]
+auth_client_secret = CONFIG["AGROWS"]["AUTH_SECRET"]
 
 
 def get_token():

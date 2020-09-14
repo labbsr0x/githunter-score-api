@@ -1,9 +1,9 @@
 import logging
-from githunter.score.env.environment import env_get_str
+from githunter.score.config import CONFIG
 from mongoengine import connect
 
 
-def set_log(): logging.basicConfig(level=logging.getLevelName(env_get_str(["app", "log_level"], "INFO")))
+def set_log(): logging.basicConfig(level=logging.getLevelName(CONFIG["APP"]["LOG_LEVEL"]))
 
 
-def connect_mongo(): connect(host=env_get_str(['db', 'mongo_uri']))
+def connect_mongo(): connect(host=CONFIG["DB"]["MONGO_URI"])
