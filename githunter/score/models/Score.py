@@ -8,6 +8,7 @@ from githunter.score.utils.score_util import get_ruler
 class Score(gj.Document):
 
     score = FloatField()
+    name = StringField()
     user = StringField()
     owner = StringField()
     thing = StringField()
@@ -25,6 +26,7 @@ class Score(gj.Document):
     def __init__(
             self,
             score: float,
+            name: str,
             user: str,
             owner: str,
             thing: str,
@@ -42,6 +44,7 @@ class Score(gj.Document):
 
         self.score = score
         self.ruler = get_ruler(score)
+        self.name = name
         self.user = user
         self.owner = owner
         self.thing = thing

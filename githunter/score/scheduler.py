@@ -19,8 +19,10 @@ def run(item: Schedule):
     logging.info(f'Schedule item [{item.code}] started.')
 
     tz = pytz.timezone('Brazil/East')
-    last_scores = Score.objects(scheduler_code=item.code).order_by('-updatedAt').limit(1000)
-    last_score_date = last_scores[0]['updatedAt'].replace(tzinfo=tz).isoformat() if len(last_scores) > 0 else None
+    last_scores = Score.objects(scheduler_code=item.code).order_by(
+        '-updatedAt').limit(1000)
+    last_score_date = last_scores[0]['updatedAt'].replace(
+        tzinfo=tz).isoformat() if len(last_scores) > 0 else None
     lasts = {}
 
     for last in last_scores:
@@ -35,18 +37,27 @@ def run(item: Schedule):
 
     for user in reversed(data):
         attr = user["attributes"]
-        user_name = attr["name"]
-        stars = calc_metric(attr, "starsReceived", lasts, user_name, 'stars_received')
+        name = attr["name"]
+        user_name = attr["login"]
+        stars = calc_metric(attr, "starsReceived", lasts,
+                            user_name, 'stars_received')
         commits = calc_metric(attr, "commits", lasts, user_name, 'commits')
-        pull_requests = calc_metric(attr, "pullRequests", lasts, user_name, 'pull_requests')
-        issues = calc_metric(attr, "issuesOpened", lasts, user_name, 'issues_opened')
-        repos = calc_metric(attr, "contributedRepositories", lasts, user_name, 'contributed_repositories')
+        pull_requests = calc_metric(
+            attr, "pullRequests", lasts, user_name, 'pull_requests')
+        issues = calc_metric(attr, "issuesOpened", lasts,
+                             user_name, 'issues_opened')
+        if len(attr["contributedRepositories"]) > 0:
+            repos = calc_metric(attr, "contributedRepositories",
+                                lasts, user_name, 'contributed_repositories')
+        else:
+            repos = 0
 
         score = get_score(stars, repos, pull_requests, commits, issues)
 
         if user_name not in scores:
             scores[user_name] = Score(
                 score,
+                name,
                 user_name,
                 item.owner,
                 item.thing,
@@ -84,14 +95,18 @@ def add(item: Schedule):
         interval_type = item.interval_type
 
         if interval_type == "daily":
-            schedule.every(interval_value).days.do(run_threaded, schedule_item=item).tag(item.code)
+            schedule.every(interval_value).days.do(
+                run_threaded, schedule_item=item).tag(item.code)
         elif interval_type == "hourly":
-            schedule.every(interval_value).hours.do(run_threaded, schedule_item=item).tag(item.code)
+            schedule.every(interval_value).hours.do(
+                run_threaded, schedule_item=item).tag(item.code)
         else:
-            logging.info(f'The param [interval_type] is wrong. You should try: hourly or daily')
+            logging.info(
+                f'The param [interval_type] is wrong. You should try: hourly or daily')
             return
 
-        logging.info(f'Schedule item [{item.code}] was configured with success. [{interval_type}] [{interval_value}].')
+        logging.info(
+            f'Schedule item [{item.code}] was configured with success. [{interval_type}] [{interval_value}].')
 
 
 def start():
