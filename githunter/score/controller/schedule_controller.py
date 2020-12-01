@@ -6,17 +6,15 @@ from githunter.score import scheduler
 
 
 def create_new(data: {}) -> {}:
-    owner = data['owner']
-    thing = data['thing']
+    provider = data['provider']
     node = data['node']
     interval_type = data['interval_type']
     interval_value = data['interval_value']
-    code = clean(owner + thing + node)
+    code = clean(provider + node)
 
     schedule = Schedule(
         code,
-        owner,
-        thing,
+        provider,
         node,
         interval_type,
         interval_value

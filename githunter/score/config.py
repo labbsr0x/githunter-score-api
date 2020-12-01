@@ -9,11 +9,8 @@ CONFIG = {
     "DB": {
         "MONGO_URI": os.environ['DB_MONGO_URI']
     },
-    "AGROWS": {
-        "AUTH_URI": os.environ['AGROWS_AUTH_URI'],
-        "AUTH_SECRET": os.environ['AGROWS_AUTH_SECRET'],
-        "AUTH_ID": os.environ['AGROWS_AUTH_ID'],
-        "DATA_API_URI": os.environ['AGROWS_DATA_API_URI'],
+    "BIND": {
+      "URL": os.environ['BIND_URL']
     },
     "APP": {
         "LOG_LEVEL": os.environ['APP_LOG_LEVEL'],

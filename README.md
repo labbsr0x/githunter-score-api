@@ -19,17 +19,8 @@ SCORE_ENVIRONMENT=
 // uri of the connection to the bank, ex: mongodb://u:p@host:27017/db?authSource=dbauth
 DB_MONGO_URI=
 
-// url of AgroWS api auth, ex: http://agrows-keycloak.labbs.com.br/auth/realms/agroWS/protocol/openid-connect/token
-AGROWS_AUTH_URI=
-
-// secret key provided by AgroWS
-AGROWS_AUTH_SECRET=
-
-// id key provided by AgroWS
-AGROWS_AUTH_ID=
-
-// url of AgroWS data-api, ex: https://agrows-data-api.labbs.com.br/v1
-AGROWS_DATA_API_URI=
+// url of Gihunter-Bind-Agrows, ex: http://githunter-bind-starws.labbs.com.br/metrics
+BIND_URL=
 
 // log level, eg INFO, WARN, ERROR
 APP_LOG_LEVEL=
@@ -42,7 +33,7 @@ APP_PORT=
 
 An example of running the application without creating a schedule (run at the moment):
 ```
-curl -X POST "http://host:port/schedule/" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"owner\": \"gitfeed\", \"thing\": \"github\", \"node\": \"userStatsV3\", \"interval_type\": \"hourly\", \"interval_value\": 0}"
+curl -X POST "http://host:port/schedule/" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"provider\": \"gitfeed\", \"node\": \"userStatsV3\", \"interval_type\": \"hourly\", \"interval_value\": 0}"
 ```
 Parameters:
 

@@ -9,8 +9,7 @@ class Score(gj.Document):
 
     score = FloatField()
     user = StringField()
-    owner = StringField()
-    thing = StringField()
+    provider = StringField()
     node = StringField()
     scheduler_code = StringField()
     ruler = IntField()
@@ -26,8 +25,7 @@ class Score(gj.Document):
             self,
             score: float,
             user: str,
-            owner: str,
-            thing: str,
+            provider: str,
             node: str,
             scheduler_code: str,
             stars_received: int,
@@ -43,8 +41,7 @@ class Score(gj.Document):
         self.score = score
         self.ruler = get_ruler(score)
         self.user = user
-        self.owner = owner
-        self.thing = thing
+        self.provider = provider
         self.node = node
         self.scheduler_code = scheduler_code
         self.stars_received = stars_received
