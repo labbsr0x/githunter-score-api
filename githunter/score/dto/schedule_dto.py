@@ -4,19 +4,15 @@ from flask_restplus import Namespace
 class ScheduleDto:
     api = Namespace('schedule', description='schedule related operations')
     schedule = api.schema_model('Schedule', {
-        'required': ['owner', 'thing', 'node', 'interval_type', 'interval_value'],
+        'required': ['provider', 'node', 'interval_type', 'interval_value'],
         'properties': {
-            'owner': {
+            'provider': {
                 'type': 'string',
-                'description': 'schedule agrows owner'
-            },
-            'thing': {
-                'type': 'string',
-                'description': 'schedule agrows thing'
+                'description': 'schedule provider'
             },
             'node': {
                 'type': 'string',
-                'description': 'schedule agrows node'
+                'description': 'schedule node'
             },
             'interval_type': {
                 'type': 'string',

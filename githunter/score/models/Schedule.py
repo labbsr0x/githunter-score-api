@@ -7,8 +7,7 @@ from mongoengine import StringField, DateTimeField, IntField
 class Schedule(gj.Document):
 
     code = StringField(required=True, unique=True)
-    owner = StringField()
-    thing = StringField()
+    provider = StringField()
     node = StringField()
     interval_type = StringField()
     interval_value = IntField()
@@ -18,8 +17,7 @@ class Schedule(gj.Document):
     def __init__(
             self,
             code: str,
-            owner: str,
-            thing: str,
+            provider: str,
             node: str,
             interval_type: str,
             interval_value: int,
@@ -29,8 +27,7 @@ class Schedule(gj.Document):
         super().__init__(*args, **values)
 
         self.code = code
-        self.owner = owner
-        self.thing = thing
+        self.provider = provider
         self.node = node
         self.interval_type = interval_type
         self.interval_value = interval_value

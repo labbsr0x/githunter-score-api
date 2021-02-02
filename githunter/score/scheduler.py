@@ -7,7 +7,7 @@ import time
 import threading
 from githunter.score.models.Schedule import Schedule
 from githunter.score.models.Score import Score
-from githunter.score.services.agrows_service import get_data
+from githunter.score.services.bind_service import get_data
 from githunter.score.utils.score_util import get_score, calc_metric
 
 logger = logging.getLogger(__name__)
@@ -32,7 +32,7 @@ def run(item: Schedule):
     start_date = last_score_date if last_score_date is not None else '2002-10-02T10:00:00-05:00'
     end_date = datetime.datetime.now(tz).isoformat()
 
-    data = get_data(item.owner, item.thing, item.node, start_date, end_date)
+    data = get_data(item.provider, item.node, start_date, end_date)
     scores = {}
 
     for user in reversed(data):
@@ -59,8 +59,7 @@ def run(item: Schedule):
                 score,
                 name,
                 user_name,
-                item.owner,
-                item.thing,
+                item.provider,
                 item.node,
                 item.code,
                 stars,
