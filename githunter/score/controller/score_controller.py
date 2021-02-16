@@ -21,9 +21,7 @@ def get_by_username(username: str):
                     '_id': '$scheduler_code',
                     'score': {'$first': '$score'},
                     'ruler': {'$first': '$ruler'},
-                    'provider': {'$first': '$node'},
-                    'node': {'$first': '$node'},
-
+                    'provider': {'$first': '$provider'},
                 }
             }])
 

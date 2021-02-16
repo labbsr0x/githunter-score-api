@@ -9,8 +9,12 @@ CONFIG = {
     "DB": {
         "MONGO_URI": os.environ['DB_MONGO_URI']
     },
-    "BIND": {
-      "URL": os.environ['BIND_URL']
+    "GITHUNTER": {
+        "URL": os.environ['GITHUNTER_API_URL'],
+        "ENDPOINTS": {
+            "USER": os.environ['GITHUNTER_USER_ENDPOINT'],
+            "USER_SIMPLE": os.environ['GITHUNTER_USER_SIMPLE_ENDPOINT']
+        }
     },
     "APP": {
         "LOG_LEVEL": os.environ['APP_LOG_LEVEL'],
