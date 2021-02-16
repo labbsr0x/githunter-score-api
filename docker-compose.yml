@@ -7,7 +7,9 @@ services:
     environment:
       - SCORE_ENVIRONMENT=DEV
       - DB_MONGO_URI=mongodb://root:root@mongo:27017/githunter?authSource=admin
-      - BIND_URL=http://githunter-bind-starws.labbs.com.br/metrics
+      - GITHUNTER_API_URL=http://githunter-api.labbs.com.br
+      - GITHUNTER_USER_ENDPOINT=/user
+      - GITHUNTER_USER_SIMPLE_ENDPOINT=/user-simple
       - APP_LOG_LEVEL=INFO
       - APP_PORT=3000
     ports:

@@ -11,7 +11,6 @@ class Score(gj.Document):
     name = StringField()
     user = StringField()
     provider = StringField()
-    node = StringField()
     scheduler_code = StringField()
     ruler = IntField()
     stars_received = IntField()
@@ -28,7 +27,6 @@ class Score(gj.Document):
             name: str,
             user: str,
             provider: str,
-            node: str,
             scheduler_code: str,
             stars_received: int,
             commits: int,
@@ -45,7 +43,6 @@ class Score(gj.Document):
         self.name = name
         self.user = user
         self.provider = provider
-        self.node = node
         self.scheduler_code = scheduler_code
         self.stars_received = stars_received
         self.commits = commits

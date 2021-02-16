@@ -1,21 +1,16 @@
 from mongoengine import NotUniqueError
 from githunter.score.models.Schedule import Schedule
 from githunter.score.utils.response_util import get_response, get_success
-from githunter.score.utils.string_util import clean
 from githunter.score import scheduler
 
 
 def create_new(data: {}) -> {}:
-    provider = data['provider']
-    node = data['node']
     interval_type = data['interval_type']
     interval_value = data['interval_value']
-    code = clean(provider + node)
+    code = data['code']
 
     schedule = Schedule(
         code,
-        provider,
-        node,
         interval_type,
         interval_value
     )

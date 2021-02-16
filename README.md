@@ -19,8 +19,8 @@ SCORE_ENVIRONMENT=
 // uri of the connection to the bank, ex: mongodb://u:p@host:27017/db?authSource=dbauth
 DB_MONGO_URI=
 
-// url of Gihunter-Bind-Agrows, ex: http://githunter-bind-starws.labbs.com.br/metrics
-BIND_URL=
+// url of Gihunter-Bind-Agrows, ex: http://githunter-api.labbs.com.br/user
+GITHUNTER_API_URL=
 
 // log level, eg INFO, WARN, ERROR
 APP_LOG_LEVEL=
@@ -33,12 +33,13 @@ APP_PORT=
 
 An example of running the application without creating a schedule (run at the moment):
 ```
-curl -X POST "http://host:port/schedule/" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"provider\": \"gitfeed\", \"node\": \"userStatsV3\", \"interval_type\": \"hourly\", \"interval_value\": 0}"
+curl -X POST "http://host:port/schedule/" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"code\": \"github_labbsr0x\", \"interval_type\": \"hourly\", \"interval_value\": 0}"
 ```
 Parameters:
 
-1. **interval_type:** can be __hourly__ or __monthly__
-2. **interval_value:** the related interval __interval_type__, eg: if you enter type: monthly and value: 1, will run 1x per month.
+1. **code:** __unique__ code that sets the schedule
+2. **interval_type:** can be __hourly__ or __monthly__
+3. **interval_value:** the related interval __interval_type__, eg: if you enter type: monthly and value: 1, will run 1x per month.
 
 
 ## Run

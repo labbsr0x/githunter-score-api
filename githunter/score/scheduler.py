@@ -7,7 +7,7 @@ import time
 import threading
 from githunter.score.models.Schedule import Schedule
 from githunter.score.models.Score import Score
-from githunter.score.services.bind_service import get_data
+from githunter.score.services.githunter_service import get_users_list, get_user
 from githunter.score.utils.score_util import get_score, calc_metric
 
 logger = logging.getLogger(__name__)
@@ -32,42 +32,46 @@ def run(item: Schedule):
     start_date = last_score_date if last_score_date is not None else '2002-10-02T10:00:00-05:00'
     end_date = datetime.datetime.now(tz).isoformat()
 
-    data = get_data(item.provider, item.node, start_date, end_date)
+    data = []
+    users_list = get_users_list()
+
+    if users_list:
+        for user in users_list:
+            user_score = get_user(user["login"], user["provider"], start_date, end_date)
+            data.append(user_score)
+
     scores = {}
 
-    for user in reversed(data):
-        attr = user["attributes"]
-        name = attr["name"]
-        user_name = attr["login"]
-        stars = calc_metric(attr, "starsReceived", lasts,
-                            user_name, 'stars_received')
-        commits = calc_metric(attr, "commits", lasts, user_name, 'commits')
-        pull_requests = calc_metric(
-            attr, "pullRequests", lasts, user_name, 'pull_requests')
-        issues = calc_metric(attr, "issuesOpened", lasts,
-                             user_name, 'issues_opened')
-        if len(attr["contributedRepositories"]) > 0:
-            repos = calc_metric(attr, "contributedRepositories",
+    if len(data) > 0:
+        for user in data:
+            name = user["name"]
+            user_name = user["login"]
+            provider = user["provider"]
+            stars = calc_metric(user, "starsReceived", lasts,
+                                user_name, 'stars_received')
+            commits = calc_metric(user, "commits", lasts, user_name, 'commits')
+            pull_requests = calc_metric(
+                user, "pullRequests", lasts, user_name, 'pull_requests')
+            issues = calc_metric(user, "issuesOpened", lasts,
+                                 user_name, 'issues_opened')
+            repos = calc_metric(user, "contributedRepositories",
                                 lasts, user_name, 'contributed_repositories')
-        else:
-            repos = 0
 
-        score = get_score(stars, repos, pull_requests, commits, issues)
+            score = get_score(stars, repos, pull_requests, commits, issues)
 
-        if user_name not in scores:
-            scores[user_name] = Score(
-                score,
-                name,
-                user_name,
-                item.provider,
-                item.node,
-                item.code,
-                stars,
-                commits,
-                pull_requests,
-                issues,
-                repos
-            ).save()
+            if user_name not in scores:
+                scores[user_name] = Score(
+                    score,
+                    name,
+                    user_name,
+                    provider,
+                    item.code,
+                    stars,
+                    commits,
+                    pull_requests,
+                    issues,
+                    repos
+                ).save()
 
     logging.info(f'Schedule item [{item.code}] finished.')
 
