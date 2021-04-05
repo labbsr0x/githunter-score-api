@@ -19,17 +19,17 @@ def get_user(author: str, author_provider: str, start_date: str, end_date: str):
         'content-type': 'application/json',
     }
 
-    request = requests.get(data_api_url, headers=headers)
+    request = requests.get(data_api_url, headers=headers, timeout=600)
 
     if request.status_code != 200:
         logging.info(f'No data found in Githunter-Api for user {author} on provider {author_provider}')
         return None
     else:
-        return json.loads(request.text)['data']
+        return json.loads(request.text)
 
 
-def get_users_list():
-    data_api_url = f'{githunter_url}{user_simple_endpoint}'
+def get_users_list(organization, provider):
+    data_api_url = f'{githunter_url}{user_simple_endpoint}?organization={organization}&provider{provider}'
 
     headers = {
         'content-type': 'application/json',

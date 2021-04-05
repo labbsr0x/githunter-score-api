@@ -12,6 +12,7 @@ services:
       - GITHUNTER_USER_SIMPLE_ENDPOINT=/user-simple
       - APP_LOG_LEVEL=INFO
       - APP_PORT=3000
+      - CONDUCTOR_URL=http://localhost:8080/api
     ports:
       - 3000:3000
     restart: always
