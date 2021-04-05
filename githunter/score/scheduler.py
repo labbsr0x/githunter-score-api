@@ -33,7 +33,7 @@ def run(item: Schedule):
     end_date = datetime.datetime.now(tz).isoformat()
 
     data = []
-    users_list = get_users_list()
+    users_list = get_users_list('bancodobrasil', 'github')
 
     if users_list:
         for user in users_list:
@@ -86,7 +86,7 @@ def remove(code: str):
 
 
 def add(item: Schedule):
-    if item.interval_value == 0:
+    if item.interval_value > 0:
         logging.info(f'Schedule item [{item.code}] will be executed [Now].')
 
         thread = threading.Thread(target=run, args=(item,))

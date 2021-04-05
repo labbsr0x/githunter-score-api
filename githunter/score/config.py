@@ -19,5 +19,8 @@ CONFIG = {
     "APP": {
         "LOG_LEVEL": os.environ['APP_LOG_LEVEL'],
         "PORT": os.environ['APP_PORT']
+    },
+    "CONDUCTOR": {
+        "URL": os.environ['CONDUCTOR_URL']
     }
 }

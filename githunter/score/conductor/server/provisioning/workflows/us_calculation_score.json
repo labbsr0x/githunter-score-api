@@ -1,0 +1,35 @@
+{
+  "name": "us_calculation_score",
+  "description": "Load the User Metrics from sourced data {users: [{login, provider}]}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "us_get_users_data",
+      "taskReferenceName": "task_get_users_data",
+      "type": "SIMPLE",
+      "inputParameters": {
+        "users": "${workflow.input.users}"
+      }
+    },
+    {
+      "name": "us_calc_metrics",
+      "taskReferenceName": "task_calc_metrics",
+      "type": "SIMPLE",
+      "inputParameters": {
+        "users": "${task_get_users_data.output.users}"
+      }
+    },
+    {
+      "name": "us_save_mongo",
+      "taskReferenceName": "task_save_mongo",
+      "type": "SIMPLE",
+      "inputParameters": {
+        "users": "${task_calc_metrics.output.users}"
+      }
+    }
+  ],
+  "restartable": true,
+  "workflowStatusListenerEnabled": true,
+  "schemaVersion": 2,
+  "ownerEmail": "rafaelmm@br.ibm.com"
+}

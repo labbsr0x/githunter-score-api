@@ -1,0 +1,44 @@
+{
+  "name": "us_calculation_score_organization",
+  "description": "Load the User Metrics from organization",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "us_load_users",
+      "taskReferenceName": "task_load_users",
+      "type": "SIMPLE",
+      "inputParameters": {
+        "organization": "${workflow.input.organization}",
+        "provider": "${workflow.input.provider}"
+      }
+    },
+    {
+      "name": "us_get_users_data",
+      "taskReferenceName": "task_get_users_data",
+      "type": "SIMPLE",
+      "inputParameters": {
+        "users": "${task_load_users.output.users}"
+      }
+    },
+    {
+      "name": "us_calc_metrics",
+      "taskReferenceName": "task_calc_metrics",
+      "type": "SIMPLE",
+      "inputParameters": {
+        "users": "${task_get_users_data.output.users}"
+      }
+    },
+    {
+      "name": "us_save_mongo",
+      "taskReferenceName": "task_save_mongo",
+      "type": "SIMPLE",
+      "inputParameters": {
+        "users": "${task_calc_metrics.output.users}"
+      }
+    }
+  ],
+  "restartable": true,
+  "workflowStatusListenerEnabled": true,
+  "schemaVersion": 2,
+  "ownerEmail": "rafaelmm@br.ibm.com"
+}
