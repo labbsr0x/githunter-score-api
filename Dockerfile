@@ -13,10 +13,10 @@ RUN apk add make automake gcc g++ subversion python3-dev
 COPY . /app
 
 RUN ln -sf python3 /usr/bin/python
-RUN ls -l /usr/lib/python3.8/site-packages/
+
 RUN git clone https://github.com/Netflix/conductor.git --branch v2.31.1 --single-branch
 RUN cd conductor/client/python && python3 setup.py install
-RUN ls -l /usr/lib/python3.8/site-packages/
+
 
 COPY ./requirements.txt /app/requirements.txt
 

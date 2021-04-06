@@ -1,6 +1,6 @@
 {
   "name": "us_calculation_score_organization",
-  "description": "Load the User Metrics from organization",
+  "description": "Load the User Metrics from organization: {organization, provider}",
   "version": 1,
   "tasks": [
     {
