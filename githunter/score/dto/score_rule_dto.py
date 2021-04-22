@@ -20,7 +20,7 @@ class ScoreRuleDto:
             },
             'math': {
                 'type': 'string',
-                'description': 'math to be `eval`. Known variables: stars, repos, pull_requests, commits, issues'
+                'description': 'math to be `eval`. Known variables: stars, repos, pulls, commits, issues'
             }
         },
         'type': 'object'
