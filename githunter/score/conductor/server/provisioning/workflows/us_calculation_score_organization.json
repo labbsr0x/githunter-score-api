@@ -21,19 +21,11 @@
       }
     },
     {
-      "name": "us_calc_metrics",
-      "taskReferenceName": "task_calc_metrics",
-      "type": "SIMPLE",
-      "inputParameters": {
-        "users": "${task_get_users_data.output.users}"
-      }
-    },
-    {
       "name": "us_save_mongo",
       "taskReferenceName": "task_save_mongo",
       "type": "SIMPLE",
       "inputParameters": {
-        "users": "${task_calc_metrics.output.users}"
+        "users": "${task_get_users_data.output.users}"
       }
     }
   ],

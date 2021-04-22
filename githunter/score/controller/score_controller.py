@@ -1,5 +1,6 @@
 import json
 
+from githunter.score.models.ScoreRule import ScoreRule
 from githunter.score.models.Score import Score
 from githunter.score.utils.response_util import get_response, get_success
 from githunter.score.utils.score_util import get_score, calc_diff, get_ruler
@@ -13,28 +14,18 @@ def get_all():
         return get_response(500, "INTERNAL_ERROR", None, e)
 
 
-def get_by_username(username: str):
+def get_by_username(username: str, params: dict):
     try:
-        items = Score.objects(user=username) \
-            .order_by('-updatedAt') \
-            .aggregate([{
-            '$group': {
-                '_id': '$scheduler_code',
-                'score': {'$first': '$score'},
-                'ruler': {'$first': '$ruler'},
-                'provider': {'$first': '$provider'},
-            }
-        }])
+        if params.get("startDateTime") is not None:
+            items = Score.objects(user=username, updatedAt__gte=params["startDateTime"],
+                                  updatedAt__lt=params["endDateTime"]).order_by('-updatedAt')
+        else:
+            items = Score.objects(user=username).order_by('-updatedAt')
 
-        return get_success(json.dumps(list(items)))
-    except Exception as e:
-        return get_response(500, "INTERNAL_ERROR", None, e)
-
-
-def get_by_username_and_date_range(username: str, params: dict):
-    try:
-        items = Score.objects(user=username, updatedAt__gte=params["startDateTime"],
-                              updatedAt__lt=params["endDateTime"]).order_by('-updatedAt')
+        score_rule = ScoreRule.objects(rule_code=params["rule_code"])
+        if len(items) < 0:
+            return get_response(404, "SCORE_RULE_ITEM_NOT_FOUND")
+        score_rule = score_rule.get(0)
 
         user_list = list(items)
         if len(user_list) < 2:
@@ -49,8 +40,8 @@ def get_by_username_and_date_range(username: str, params: dict):
                 "issuesOpened": calc_diff(newer, older, 'issues_opened'),
                 "contributedRepositories": calc_diff(newer, older, 'contributed_repositories')}
 
-        user["score"] = get_score(user["starsReceived"], user["contributedRepositories"], user["pullRequests"],
-                                  user["commits"], user["issuesOpened"])
+        user["score"] = get_score(score_rule["math"], user["starsReceived"], user["contributedRepositories"],
+                                  user["pullRequests"], user["commits"], user["issuesOpened"])
         user["ruler"] = get_ruler(user["score"])
 
         return get_success(json.dumps(user))
