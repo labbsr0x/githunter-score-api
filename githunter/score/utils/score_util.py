@@ -1,8 +1,9 @@
 import math
 
 
-def get_score(stars, repos, pull_requests, commits, issues):
-    return (2 * stars) + (2 * repos) + (2 * pull_requests) + commits + issues
+def get_score(math, stars, repos, pulls, commits, issues):
+    return eval(math)
+    # return (2 * stars) + (2 * repos) + (2 * pull_requests) + commits + issues
 
 
 def get_ruler(score):

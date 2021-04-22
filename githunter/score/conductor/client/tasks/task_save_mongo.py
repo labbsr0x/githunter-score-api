@@ -15,7 +15,7 @@ def execute(task):
 
         if user["login"] not in scores:
             scores[user["login"]] = Score(
-                user["score"],
+                0,
                 user["name"],
                 user["login"],
                 user["provider"],

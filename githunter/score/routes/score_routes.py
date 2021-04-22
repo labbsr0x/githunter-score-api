@@ -1,5 +1,5 @@
 from flask_restplus import Resource
-from githunter.score.controller.score_controller import get_all, get_by_username, get_by_username_and_date_range
+from githunter.score.controller.score_controller import get_all, get_by_username
 from githunter.score.dto.score_dto import ScoreDto
 from flask import request
 
@@ -23,13 +23,4 @@ class ScoreUnique(Resource):
     @score_api.doc('get the score by user_name')
     def get(self, username):
         """get the score by user_name"""
-        return get_by_username(username)
-
-
-@score_api.route('/user/<username>/score')
-class ScoreUnique(Resource):
-    @score_api.response(200, "OK", _score)
-    @score_api.doc('get the score by user_name')
-    def get(self, username):
-        """get the score by user_name"""
-        return get_by_username_and_date_range(username, request.args.to_dict())
+        return get_by_username(username, request.args.to_dict())
